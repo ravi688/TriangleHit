@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 725beca8b2f8e154e986987568c0cbe8, type: 3}
+  m_Name: Gun
+  m_EditorClassIdentifier: 
+  nozel_offset: {x: 1, y: 0.26}
+  hit_sprite: {fileID: 3086281766754650022, guid: 7adfde2420636ad40a69c974001696ae,
+    type: 3}
+  bullet_sprite: {fileID: -5887574851830874244, guid: 7adfde2420636ad40a69c974001696ae,
+    type: 3}
+  hit_mark_scale_factor: 4
+  bullet_scale_factor: 2
+  ray_cast_wait_time: 0.1
+  hit_spark_stay_time: 0.1
+  recoil_duration: 0.15
+  recoil_amplitude: 0.3
+  hit_force: 5
+  force_offset: 0.5
+  momenumForCameraShake: 11
+  damage_amount: 5
+  CanDamageAmount: 10
+  isApplyForceOnHit: 0
+  isCameraShakeOnHit: 0
+  isHideOnAwake: 0
+  canDamage: 1

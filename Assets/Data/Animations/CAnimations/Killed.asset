@@ -1,0 +1,26 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4ba9f78ac9298e44ab9d6e653192b153, type: 3}
+  m_Name: Killed
+  m_EditorClassIdentifier: 
+  name: Killed
+  frames:
+  - {fileID: 21300000, guid: 6731fac423b7be844a4a52d4c117220c, type: 3}
+  - {fileID: 21300000, guid: 2ec0d00208d45ce4aabb9856814acea9, type: 3}
+  - {fileID: 21300000, guid: e44feefb43cc542429cdaa639f6903a7, type: 3}
+  - {fileID: 21300000, guid: f6c924066ed7b1a48bf0007f01e3fd78, type: 3}
+  - {fileID: 21300000, guid: 47fbe627ea45fc346ad14a7c8c770e1e, type: 3}
+  - {fileID: 21300000, guid: 4bee8b7df511b0146a93e3ba7a30a7b9, type: 3}
+  - {fileID: 21300000, guid: b90ca5ccd3afc0e4491f00e6f865390c, type: 3}
+  isLoop: 0
+  fps: 10
+  currentFrameIndex: 0

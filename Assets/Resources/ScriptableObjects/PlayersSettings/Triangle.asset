@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0c133b794baaeea44a94ed5c3f116c7f, type: 3}
+  m_Name: Triangle
+  m_EditorClassIdentifier: 
+  thrust_bar_fillup_rate: 10
+  thrust_bar_useup_rate: 20
+  thrust_speed: 20
+  move_speed: 10
+  hit_factor: 1
+  max_lives: 3
+  cost: 10
