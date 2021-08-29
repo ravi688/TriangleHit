@@ -1,7 +1,6 @@
 ﻿using UnityEngine;
 
-[CreateAssetMenu(fileName = "EnemyCoreSettings", menuName = "Custom/EnemySettings/EnemyCoreSettings")]
-public class EnemyCoreSettings : ScriptableObject
+public abstract class EnemyCoreSettings : ScriptableObject
 {
     public float DamageFactor;
     public float TakeDamageThresholdVelocity;

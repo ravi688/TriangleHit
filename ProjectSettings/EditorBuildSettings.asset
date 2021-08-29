@@ -4,5 +4,17 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Data/Scenes/StartScreen.unity
+    guid: 4a42b5c9aa94da048bef97f042ad6fa8
+  - enabled: 1
+    path: Assets/Data/Scenes/StatsScreen.unity
+    guid: 7fb805de81e3a1d40ba6df7962d1d120
+  - enabled: 1
+    path: Assets/Data/Scenes/Level2/Level2.unity
+    guid: 3683fa331ad1526478b3b4e42d1108e1
+  - enabled: 1
+    path: Assets/Data/Scenes/Level1/Level1.unity
+    guid: a1d93171d9831d948bd9db888faf2545
   m_configObjects: {}

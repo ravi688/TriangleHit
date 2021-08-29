@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 8807012769429842646}
   - component: {fileID: 1020084611931585989}
   - component: {fileID: 4944417365969170099}
-  - component: {fileID: 3674972858210425104}
+  - component: {fileID: 24212340493119837}
   m_Layer: 0
   m_Name: camera
   m_TagString: MainCamera
@@ -224,7 +224,7 @@ MonoBehaviour:
     m_RotationOrder: 0
   maxOrthographicSizeOffset: 1.1
   zoom_duration: 2
---- !u!114 &3674972858210425104
+--- !u!114 &24212340493119837
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -233,27 +233,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 6279756911976797049}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5778e5e62bdc02248ba9cfd83c52e3e4, type: 3}
+  m_Script: {fileID: 11500000, guid: daee9c9617a92cc4e93179f2447119e1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  VignetteFalloff: 2.2
-  VignetteOuterValue: 1
-  VignetteInnerValue: 0
-  VignetteInnerValueDistance: 0
-  VignetteOuterValueDistance: 0.7
-  VignetteMode: 1
-  VignetteCenter: {x: 0.5, y: 0.5}
-  VignetteInnerColor: {r: 0, g: 0, b: 0, a: 0}
-  VignetteOuterColor: {r: 0, g: 0, b: 0, a: 1}
-  VignetteInnerSaturation: 1
-  VignetteOuterSaturation: 0
-  VignetteDebugEnabled: 0
-  IsAnamorphicVignette: 0
-  EnableSaturationVignette: 0
-  IntegrationType: 2
-  IntegrationStage: 1
-  FinalVignetteShader: {fileID: 4800000, guid: d4c4c6a3a749d0f49a5275153224efbf, type: 3}
-  isHDR: 0
-  isSPSR: 0
-  pipelineFoldout: 0
-  aboutFoldout: 0
+  CurShader: {fileID: 4800000, guid: 0d245ef015507344c9dd886b9b89344f, type: 3}
+  VignetteAmount: 1
