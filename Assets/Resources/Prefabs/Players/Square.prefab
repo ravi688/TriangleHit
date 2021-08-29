@@ -46,6 +46,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -68,7 +69,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 407619069
-  m_SortingLayer: 2
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 76d610c2746b38c419b705ec90eb2e38, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -128,6 +129,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -150,7 +152,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 407619069
-  m_SortingLayer: 2
+  m_SortingLayer: 0
   m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: 54978edd27e0fe645bdaf1cced38f3c9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -191,7 +193,7 @@ GameObject:
   - component: {fileID: 6113850049981220273}
   - component: {fileID: 6240308133057333777}
   - component: {fileID: 6268133413379310201}
-  - component: {fileID: 7147599144882227055}
+  - component: {fileID: -1717355032070734669}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -230,6 +232,7 @@ SpriteRenderer:
   m_LightProbeUsage: 0
   m_ReflectionProbeUsage: 0
   m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -252,7 +255,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 407619069
-  m_SortingLayer: 2
+  m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 21300000, guid: 410be45b583a5354c97a889a585375f4, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -314,7 +317,7 @@ PolygonCollider2D:
     - - {x: 0.46155652, y: -0.40318882}
       - {x: 0.011467907, y: 0.4182787}
       - {x: -0.46389067, y: -0.37353557}
---- !u!114 &7147599144882227055
+--- !u!114 &-1717355032070734669
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -323,7 +326,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 6210252126568747849}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e610d736355f00248913c14d2f31fb96, type: 3}
+  m_Script: {fileID: 11500000, guid: 3e0883f346bb32342897380ba82dc548, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerConfig: {fileID: 11400000, guid: c77090f167cb9ec4d8779dd7750691c4, type: 2}

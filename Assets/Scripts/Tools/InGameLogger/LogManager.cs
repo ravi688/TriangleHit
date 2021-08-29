@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class LogManager : GUIScript
+public class LogManager : SingletonMonoBehaviour<LogManager>, IGUIScript
 {
     private TabMenu tab_menu;
     private refList<DebugConsole> active_consoles;
@@ -75,6 +75,7 @@ public class LogManager : GUIScript
     {
         if (!isInitialized)
             Initialize();
+        GUIScriptManager.Register(this);
     }
 
     private void Start()
@@ -185,7 +186,7 @@ public class LogManager : GUIScript
             active_consoles.GetValue(i).ReCalculateRect();
         }
     }
-    protected override void OnGUIStart()
+    public void OnGUIStart()
     {
 
         tab_menu.OnGUIStart();
@@ -194,7 +195,7 @@ public class LogManager : GUIScript
             consoles[i].OnGUIStart();
     }
 
-    protected override void OnGUIUpdate()
+    public void OnGUIUpdate()
     {
 
         if (GUI.Button(log_system_button_rect, "Logs", button_style))
