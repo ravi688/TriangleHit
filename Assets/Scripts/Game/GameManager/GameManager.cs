@@ -2,6 +2,13 @@
 #pragma warning disable
 #endif
 
+#if ANDROID && WINDOWS
+#warning [Platform Error] Both ANDROID and WINDOWS are defined! please define one of them.
+#endif
+
+#if !ANDROID && !WINDOWS
+#warning [Platform Error] Neither ANDROID nor WINDOWS are defined! please define either of them.
+#endif
 
 using UnityEngine;
 using System.Collections.Generic;
@@ -20,15 +27,14 @@ public enum GameManagementMode
 /*NOTE:
  * Every method of GameManager must be called in Start or Update but not Awake or OnEnable
  */
-public class GameManager :
+public class GameManager : MonoBehaviour
 #if FPS
-GUIScript
-#else
-    MonoBehaviour
+    ,IGUIScript
 #endif
-{
-    public static GameManager Instance { get { return instance; } }
-    private static GameManager instance;
+
+{ 
+    public static GameManager Instance {  get { return _instance; } }
+    private static GameManager _instance;
     public static Camera GetCamera()
     {
         if (Instance.game_camera == null)
@@ -46,13 +52,13 @@ GUIScript
     }
     public static Canvas GetCanvas()
     {
-        if (instance.canvas == null)
+        if (Instance.canvas == null)
         {
-            instance.canvas = GameObject.FindObjectOfType<Canvas>();
-            if (instance.canvas == null)
-                instance.canvas = new GameObject("Canvas").GetComponent<Canvas>();
+            Instance.canvas = GameObject.FindObjectOfType<Canvas>();
+            if (Instance.canvas == null)
+                Instance.canvas = new GameObject("Canvas").GetComponent<Canvas>();
         }
-        return instance.canvas;
+        return Instance.canvas;
     }
     public static GameManagementMode GetGameManagementMode() { return Instance.private_management_mode; }
     public static Level[] GetLevels()
@@ -129,23 +135,18 @@ GUIScript
     {
         if (Instance.point_manager == null)
             Instance.point_manager = new PointManager();
-        return instance.point_manager;
+        return Instance.point_manager;
     }
     public static TouchManager GetTouchManager()
     {
         if (Instance.touch_manager == null)
             Instance.touch_manager = new TouchManager();
-        return instance.touch_manager;
+        return Instance.touch_manager;
     }
 #if DEBUG_MODE
     public static LogManager GetLogManager()
     {
-        if (log_manager == null)
-        {
-            log_manager = new GameObject("LogManager").AddComponent<LogManager>();
-            DontDestroyOnLoad(log_manager.gameObject);
-        }
-        return log_manager;
+        return LogManager.Instance;
     }
 #endif
     public static CheatManager GetCheatManager()
@@ -179,7 +180,7 @@ GUIScript
             rectTransform = transform.gameObject.AddComponent<RectTransform>();
             rectTransform.anchoredPosition = Vector3.zero;
             Instance.exit_menu = rectTransform.GetComponent<ExitMenu>();
-            instance.exit_menu_prefab = prefab;
+            Instance.exit_menu_prefab = prefab;
         }
         return Instance.exit_menu;
     }
@@ -198,7 +199,7 @@ GUIScript
             rectTransform = transform.gameObject.AddComponent<RectTransform>();
             rectTransform.anchoredPosition = Vector3.zero;
             Instance.pause_menu = rectTransform.GetComponent<PauseMenu>();
-            instance.pause_menu_prefab = prefab;
+            Instance.pause_menu_prefab = prefab;
         }
         return Instance.pause_menu;
     }
@@ -236,9 +237,6 @@ GUIScript
     private UpgradesManager upgrades_manager;
     private static MenuManager menu_manager;
     private LevelLoadManager level_load_manager;
-#if DEBUG_MODE
-    private static LogManager log_manager;
-#endif
     private PlayerManager player_manager;
     private IControlSystem game_control_system;
     private Camera game_camera;
@@ -257,7 +255,8 @@ GUIScript
     private GUIStyle fps_style;
     private int fps;
     private Timer fps_timer;
-    protected override void OnGUIStart()
+
+    public void OnGUIStart()
     {
         fps_timer.IsLoop = true;
         fps_rect = new Rect(20, 20, 400, 400);
@@ -265,7 +264,7 @@ GUIScript
         fps_style.fontStyle = FontStyle.Bold;
         fps_style.fontSize = 50;
     }
-    protected override void OnGUIUpdate()
+    public void OnGUIUpdate()
     {
         GUI.Label(fps_rect,  fps.ToString(), fps_style);
     }
@@ -273,19 +272,29 @@ GUIScript
 
     private void Awake()
     {
-        if (instance == null)
-            instance = this;
+        if (_instance == null)
+            _instance = this;
         else
         {
             Destroy(gameObject);
             return;
         }
         DontDestroyOnLoad(gameObject);
+#if ANDROID && WINDOWS
+        Debug.LogWarning("[Platform Warning] You have defined ANDROID and WINDOWS both, please define either one of those");
+#endif
+
+#if !ANDROID && !WINDOWS
+        Debug.LogError("[Platform Error] You haven't defined neither ANDROID nor WINDOWS, please define either one of those");
+        Debug.Break();
+        return;
+#endif
 
 #if FPS
         fps_timer = new Timer(0, 60, 0.5f);
         fps_timer.AddListner(() => fps = (int)(1 / Time.deltaTime), OnTimer.Update | OnTimer.Start);
         fps_timer.Start();
+        GUIScriptManager.Register(this);
 #endif
 
         SetupStaticMemory();
@@ -431,7 +440,7 @@ GUIScript
 #if DEBUG_MODE
             GetLogManager().Log("Switching the GameManagement mode");
 #endif
-            instance.is_update_management_mode = true;
+            Instance.is_update_management_mode = true;
             StaticMemory.US_OnActiveSceneChanged();
         };
         GetLevelLoadManager().LoadBlackImage();
@@ -462,12 +471,12 @@ GUIScript
         GetPlayerManager().UnloadAllPlayersSettings();
         GetAgainAliveManager().UnloadCounterText();
         UnloadResource(Instance.pause_menu_prefab);
-        instance.pause_menu_prefab = null;
+        Instance.pause_menu_prefab = null;
         SceneManager.sceneUnloaded -= UnloadGameplay;
     }
     public static void SetGameManagementMode(GameManagementMode mode)
     {
-        if (mode == instance.private_management_mode)
+        if (mode == Instance.private_management_mode)
         {
 #if DEBUG_MODE
             GetLogManager().LogWarning(string.Format("GameManagementMode is already set to {0}", mode.ToString()));
@@ -475,7 +484,7 @@ GUIScript
             return;
         }
         //Unload the previous loaded resources
-        switch (instance.private_management_mode)
+        switch (Instance.private_management_mode)
         {
             case GameManagementMode.GamePlay:
                 SceneManager.sceneUnloaded += UnloadGameplay;
@@ -483,12 +492,12 @@ GUIScript
             case GameManagementMode.GameEnd:
                 Instance.exit_menu = null;
                 UnloadResource(Instance.exit_menu_prefab);
-                instance.exit_menu_prefab = null;
+                Instance.exit_menu_prefab = null;
                 break;
             case GameManagementMode.GameStart:
                 Instance.exit_menu = null;
                 UnloadResource(Instance.exit_menu_prefab);
-                instance.exit_menu_prefab = null;
+                Instance.exit_menu_prefab = null;
                 break;
         }
         //     Resources.UnloadUnusedAssets();
@@ -511,8 +520,8 @@ GUIScript
                     GetLogManager().Log("Game Management Mode is set to GameManagementMode.GamePlay");
 #endif
                     GetPauseMenu();
-                    instance.SetupGamePlayManagers();
-                    instance.SetupGameOver();
+                    Instance.SetupGamePlayManagers();
+                    Instance.SetupGameOver();
                     //No need to consider StaticMemory.CurrentLevelBuildIndex here because it is automatically updated
                     //in the LevelLoadManager when we call LevelLoadManager::LoadLevel(build_index)
                 };
@@ -528,8 +537,8 @@ GUIScript
                 };
                 break;
         }
-        instance.private_management_mode = mode;
-        instance.is_update_management_mode = false;
+        Instance.private_management_mode = mode;
+        Instance.is_update_management_mode = false;
     }
     public static void PauseGame()
     {
