@@ -1,8 +1,8 @@
 ﻿using UnityEngine.Events;
 
-public interface IContigousPool<t_Object>
+public interface IContiguousPool<t_Object>
 {
-    int Capacity { get; }
+    int Size { get; }
     int ActiveCount { get; }
     int InactiveCount { get; }
 

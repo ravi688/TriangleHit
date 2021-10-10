@@ -2,9 +2,9 @@
 using System;
 using UnityEngine.Events;
 
-public class DynamicContigousPool<t_ObjectType> : IContigousPool<t_ObjectType>
+public class DynamicContigousPool<t_ObjectType> : IContiguousPool<t_ObjectType>
 {
-    public int Capacity { get { return 0; } }
+    public int Size { get { return 0; } }
     public int ActiveCount { get { return 0; } }
     public int InactiveCount { get { return 0; } }
 
