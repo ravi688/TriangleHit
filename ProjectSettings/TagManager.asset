@@ -3,7 +3,9 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
+  - SpawnPointsContainer
   layers:
   - Default
   - TransparentFX
@@ -40,4 +42,13 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 1230130975
+    locked: 0
+  - name: Static
+    uniqueID: 3208372405
+    locked: 0
+  - name: Dynamic
+    uniqueID: 3520908249
     locked: 0
