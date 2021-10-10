@@ -218,9 +218,6 @@ public class GameManager : MonoBehaviour
         return Instance.game_control_system;
     }
 
-    private Image black_image;
-    private AlphaAdapter black_image_alpha_adapter;
-    private FadeController black_image_fade_controller;
     private Timer load_stats_screen_timer;
     private Canvas canvas;
     private static Level[] levels;
