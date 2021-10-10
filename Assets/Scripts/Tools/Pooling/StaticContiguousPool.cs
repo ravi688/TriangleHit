@@ -31,46 +31,65 @@ public class StaticContiguousPool<t_Object> : IContiguousPool<t_Object>
         m_active_cursor = 0;
         m_active_count = m_size;
     }
+
     public void Resize(int new_capacity)
     {
         if (new_capacity == m_size) return;
-        if (new_capacity > m_size)
-        {
-            Reference<t_Object>[] new_object_buffer = new Reference<t_Object>[new_capacity];
-            bool[] new_active_mask = new bool[new_capacity];
-            for (int i = 0; i < m_size; i++)
-            {
-                new_object_buffer[i] = m_object_buffer[i];
-                new_active_mask[i] = m_active_mask[i];
-            }
-            for (int i = m_size; i < new_capacity; i++)
-                new_active_mask[i] = true;
-            m_active_mask = new_active_mask;
-            m_object_buffer = new_object_buffer;
-        }
-        else//if new_capacity < m_capacity
-        {
-            for (int i = new_capacity; i < m_size; i++)
-                if (m_active_mask[i])
-                    m_active_count--;
-        }
-        m_size = new_capacity;
-        m_inactive_cursor = Mathf.Clamp(m_inactive_cursor, 0, m_size - 1);
-        m_active_cursor = Mathf.Clamp(m_active_cursor, 0, m_size - 1);
+
     }
+
+    //public void Resize(int new_capacity)
+    //{
+    //    if (new_capacity == m_size) return;
+    //    if (new_capacity > m_size)
+    //    {
+    //        Reference<t_Object>[] new_object_buffer = new Reference<t_Object>[new_capacity];
+    //        bool[] new_active_mask = new bool[new_capacity];
+    //        for (int i = 0; i < m_size; i++)
+    //        {
+    //            new_object_buffer[i] = m_object_buffer[i];
+    //            new_active_mask[i] = m_active_mask[i];
+    //        }
+    //        for (int i = m_size; i < new_capacity; i++)
+    //            new_active_mask[i] = true;
+    //        m_active_mask = new_active_mask;
+    //        m_object_buffer = new_object_buffer;
+    //    }
+    //    else//if new_capacity < m_capacity
+    //    {
+    //        for (int i = new_capacity; i < m_size; i++)
+    //            if (m_active_mask[i])
+    //                m_active_count--;
+    //    }
+    //    m_size = new_capacity;
+    //    m_inactive_cursor = Mathf.Clamp(m_inactive_cursor, 0, m_size - 1);
+    //    m_active_cursor = Mathf.Clamp(m_active_cursor, 0, m_size - 1);
+    //}
+
     //Must be called before any of ReturnToPool or GetFromPool methods, in sequence
     public void Add(t_Object obj)
     {
-        if (m_inactive_cursor >= m_size)   //if object buffer is full
+        if (m_inactive_cursor >= m_size)
+        {
+#if THROW_EXCEPTION
+            throw new System.IndexOutOfRangeException("Pool is full of inactive objects; m_active_count <= 0");
+#else
             return;
+#endif
+        }
         ReturnToPool(obj);
     }
     public void ReturnToPool(t_Object obj)
     {
+        if (m_inactive_cursor >= m_size)
+        {
 #if THROW_EXCEPTION
-        if (m_active_count <= 0)
             throw new System.IndexOutOfRangeException("Pool is full of inactive objects; m_active_count <= 0");
+#else
+            return;
 #endif
+        }
+
         if (!m_active_mask[m_inactive_cursor])  //if already inactive, then return
         {
 #if THROW_EXCEPTION
@@ -81,7 +100,7 @@ public class StaticContiguousPool<t_Object> : IContiguousPool<t_Object>
         }
         m_object_buffer[m_inactive_cursor] = obj;
         m_active_mask[m_inactive_cursor] = false;    //set it inactive
-        if(OnInactive != null) OnInactive(obj);
+        if (OnInactive != null) OnInactive(obj);
         m_inactive_cursor++;
         m_inactive_cursor %= m_size;
         --m_active_count;
@@ -91,32 +110,37 @@ public class StaticContiguousPool<t_Object> : IContiguousPool<t_Object>
 
 #if THROW_EXCEPTION
         if (m_active_count >= m_size)
-            throw new System.IndexOutOfRangeException("Poll doesn't have inactive objects; m_active_count >= m_size");
+            throw new System.IndexOutOfRangeException("Pool doesn't have inactive objects; m_active_count >= m_size");
 #endif
 
         t_Object obj = m_object_buffer[m_active_cursor];
         m_active_mask[m_active_cursor] = true;     //set it active
-        if(OnActive != null) OnActive(obj);
+        if (OnActive != null) OnActive(obj);
         m_active_cursor++;
         m_active_cursor %= m_size;
         ++m_active_count;
         return obj;
     }
+
+    public void ForEach(UnityAction<t_Object> callback)
+    {
+        for (int i = 0; i < m_size; i++)
+            callback(m_object_buffer[i]);
+    }
+
+    public void ForEachInActive(UnityAction<t_Object> callback)
+    {
+        int cursor = m_active_cursor;
+        int inactive_count = m_size - m_active_count;
+        for (int i = 0; i < inactive_count; i++, cursor++, cursor %= m_size)
+            callback(m_object_buffer[cursor]);
+    }
+
     public void ForEachActive(UnityAction<t_Object> callback)
     {
-        if (m_active_cursor > m_inactive_cursor)  //if active objects are in-between the cursors
-            for (int i = m_inactive_cursor; i <= m_active_cursor; i++)
-                callback(m_object_buffer[i].Get());
-        else //if m_active_cursor <= m_inactive_cursor,  active objects are not in-between the cursors
-        {
-            int cursor = m_inactive_cursor;
-            while (cursor < m_active_cursor)
-            {
-                callback(m_object_buffer[cursor].Get());
-                cursor++;
-                cursor %= m_size;
-            }
-        }
+        int cursor = m_inactive_cursor;
+        for (int i = 0; i < m_active_count; i++, cursor++, cursor %= m_size)
+            callback(m_object_buffer[cursor]);
     }
 
     private Reference<t_Object>[] m_object_buffer;
